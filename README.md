@@ -22,7 +22,11 @@ git instead of only inside the keyboard.
 ```
 
 The first run downloads about 2 GB of west projects into `zmk/`, `zephyr/` and `modules/`
-(git ignored). The result is `out/zmk.bin` with `out/zmk.bin.sha256`. The toolchain is the
+(git ignored). The result is `out/v1ultra-<build>-<commit>.bin` with a `.sha256` file next to
+it. `<build>` is the GitHub Actions run number, or `local` for a local build, and `<commit>`
+is the short commit hash with `-dirty` added when the working tree has uncommitted changes.
+The same name is used for the artifact in Actions, which is named `v1ultra-firmware-<run>.<attempt>`.
+The toolchain is the
 Zephyr CI image `ghcr.io/zephyrproject-rtos/ci:v0.26.11`, the same one Keychron builds with.
 
 ## Flash
@@ -31,8 +35,8 @@ Run on the machine the keyboard is plugged into with a cable (Windows Python, no
 
 ```
 python tools/kdfu.py info
-python tools/kdfu.py flash out/zmk.bin
-python tools/kdfu.py flash out/zmk.bin --yes
+python tools/kdfu.py flash out/v1ultra-local-<commit>.bin
+python tools/kdfu.py flash out/v1ultra-local-<commit>.bin --yes
 ```
 
 Keep a known good image to go back to. The updater can flash it again as long as the running

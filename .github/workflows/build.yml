@@ -26,10 +26,12 @@ jobs:
           key: west-${{ hashFiles('config/west.yml') }}
 
       - name: Build
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
         run: bash scripts/container-build.sh
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
-          name: v1ultra-firmware
+          name: v1ultra-firmware-${{ github.run_number }}.${{ github.run_attempt }}
           path: out/

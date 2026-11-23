@@ -23,8 +23,15 @@ west build -p always -b keychron -d build -- \
     -DZMK_EXTRA_MODULES="$root/zmk-key-loop" \
     -DZephyr_DIR="$root/zephyr/share/zephyr-package/cmake"
 
+commit="$(git -C "$root" rev-parse --short HEAD 2>/dev/null || echo unknown)"
+if [ -n "$(git -C "$root" status --porcelain 2>/dev/null)" ]; then
+    commit="$commit-dirty"
+fi
+name="v1ultra-${BUILD_NUMBER:-local}-$commit"
+
+rm -rf "$root/out"
 mkdir -p "$root/out"
-cp build/zephyr/zmk.bin "$root/out/zmk.bin"
+cp build/zephyr/zmk.bin "$root/out/$name.bin"
 cd "$root/out"
-sha256sum zmk.bin > zmk.bin.sha256
-cat zmk.bin.sha256
+sha256sum "$name.bin" > "$name.bin.sha256"
+cat "$name.bin.sha256"
