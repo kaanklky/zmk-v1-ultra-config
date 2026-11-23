@@ -50,8 +50,9 @@ firmware still answers on USB.
   stored Launcher key only where it differs from the key generated from this file, so a Launcher
   value wins over this file. Behaviors the Launcher cannot represent (the mod-morph ones)
   show up as empty keys there, and an old Launcher value stored for the same key hides them.
-  Clear those keys once in the Launcher: Windows layer knob turn left, knob turn right, knob
-  press, and Fn + Tab on the Windows Fn layer.
+  After flashing a new keymap, use the Launcher keymap reset once and unplug and replug the
+  keyboard. The reset deletes the stored keys and knobs, so the keymap of this file is active
+  after the power cycle. Until the power cycle the mod-morph keys act as empty keys.
 - Launcher macros (M1 to M5 on Fn + 1 to 5) are kept in the keyboard, not in this repository.
   A Launcher factory reset or a change of `ZMK_BUILDDATE` in `launcher.h` of the fork deletes them.
 
