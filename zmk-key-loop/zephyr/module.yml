@@ -1,0 +1,6 @@
+name: zmk-key-loop
+build:
+  cmake: .
+  kconfig: Kconfig
+  settings:
+    dts_root: .
