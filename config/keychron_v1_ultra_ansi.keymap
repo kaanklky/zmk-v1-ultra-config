@@ -50,6 +50,11 @@
             bindings = <&mm_vol_up>, <&mm_vol_dn>;
             tap-ms = <20>;
         };
+        key_loop: key_loop {
+            compatible = "zmk,behavior-key-loop";
+            #binding-cells = <1>;
+            delay-ms = <1>;
+        };
         };
     };
     macro1:zm_ma{
@@ -271,7 +276,7 @@
             &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &kp PG_UP
             &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &kp PG_DN
             &trans &trans &trans &trans &trans &kc BATINFO &kc NKRO &trans &trans &trans &trans &trans &trans
-            &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &key_loop SPACE &trans &trans &trans &trans &trans &trans
             &none &trans &trans &trans &trans
             >;
             sensor-bindings = <&inc_dec_kp C_NEXT C_PREV>;
