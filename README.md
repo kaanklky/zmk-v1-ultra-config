@@ -12,6 +12,7 @@ git instead of only inside the keyboard.
   `keychron_v1_ultra_ansi` of the fork (`ZMK_CONFIG`).
 - `scripts/build.sh`: builds in Docker on the machine. Needs Docker only.
 - `scripts/container-build.sh`: the actual build steps, also used by GitHub Actions.
+- `patches/`: patches for the pinned `Keychron/zmk` checkout, applied by the build, see Patches.
 - `.github/workflows/build.yml`: builds on every push and uploads `out/` as an artifact.
 - `tools/kdfu.py`: USB firmware updater, see `tools/README.md`.
 
@@ -63,10 +64,27 @@ firmware still answers on USB.
 - Launcher macros (M1 to M5 on Fn + 1 to 5) are kept in the keyboard, not in this repository.
   A Launcher factory reset or a change of `ZMK_BUILDDATE` in `launcher.h` of the fork deletes them.
 
+## Patches
+
+Some things cannot be changed from `config/`, for example values the shield `.conf` of the fork
+sets, or the code of the fork itself. Every `patches/*.patch` is applied with `git apply` to the
+`zmk` checkout on each build. Before `west update` the build resets the tracked files of that
+checkout, so a patch always applies to a clean tree, also when a cached workspace is restored.
+
+To add a patch, edit the file under `zmk/`, run `git -C zmk diff > patches/NNNN-name.patch`
+(paths must stay relative to the `zmk` root), then build again. When the `zmk` pin changes, check
+that every patch still applies.
+
+- `0001-round-knob-detents.patch`: the knob driver reports 9 degrees per count and the knob code
+  needs 36 degrees, so 4 counts, per step. One count is lost on a change of direction, which made
+  the first click after a reversal do nothing and, with back and forth turning, nothing at all.
+  The patch rounds at three quarters of a step instead of cutting off, so 3 counts also give a step.
+
 ## Updating the pinned versions
 
-Change the revisions in `config/west.yml` to the new commits, run `./scripts/build.sh`, flash and
-check that the keyboard and its Launcher still work before committing.
+Change the revisions in `config/west.yml` to the new commits, run `./scripts/build.sh` (it fails
+if a patch no longer applies), flash and check that the keyboard and its Launcher still work
+before committing.
 
 ## Licenses
 
