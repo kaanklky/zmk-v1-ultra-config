@@ -14,7 +14,15 @@ cd "$root"
 if [ ! -d .west ]; then
     west init -l config
 fi
+if [ -d zmk/.git ]; then
+    git -C zmk checkout -- .
+fi
 west update
+
+for patch in "$root"/patches/*.patch; do
+    [ -e "$patch" ] || continue
+    git -C zmk apply "$patch"
+done
 
 cd zmk/app
 west build -p always -b keychron -d build -- \
