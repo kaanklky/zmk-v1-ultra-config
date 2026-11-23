@@ -1,0 +1,1 @@
+target_sources_ifdef(CONFIG_ZMK_BEHAVIOR_KEY_LOOP app PRIVATE src/behavior_key_loop.c)

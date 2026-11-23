@@ -20,6 +20,7 @@ cd zmk/app
 west build -p always -b keychron -d build -- \
     -DSHIELD=keychron_v1_ultra_ansi \
     -DZMK_CONFIG="$root/config" \
+    -DZMK_EXTRA_MODULES="$root/zmk-key-loop" \
     -DZephyr_DIR="$root/zephyr/share/zephyr-package/cmake"
 
 mkdir -p "$root/out"

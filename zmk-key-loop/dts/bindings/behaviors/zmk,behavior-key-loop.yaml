@@ -1,0 +1,11 @@
+description: Key loop behavior, presses and releases a key repeatedly until pressed again
+
+compatible: "zmk,behavior-key-loop"
+
+include: one_param.yaml
+
+properties:
+  delay-ms:
+    type: int
+    default: 1
+    description: Time in milliseconds between each press and release
