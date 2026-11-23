@@ -1,0 +1,35 @@
+name: Build firmware
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/zephyrproject-rtos/ci:v0.26.11
+      options: --user root
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache west workspace
+        uses: actions/cache@v4
+        with:
+          path: |
+            .west
+            zmk
+            zephyr
+            modules
+          key: west-${{ hashFiles('config/west.yml') }}
+
+      - name: Build
+        run: bash scripts/container-build.sh
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: v1ultra-firmware
+          path: out/
