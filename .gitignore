@@ -1,7 +1,7 @@
-.west/
-zmk/
-zephyr/
-modules/
-bootloader/
-out/
+/.west/
+/zmk/
+/zephyr/
+/modules/
+/bootloader/
+/out/
 __pycache__/
