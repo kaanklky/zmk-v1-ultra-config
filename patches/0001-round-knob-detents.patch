@@ -1,0 +1,16 @@
+diff --git a/app/src/behaviors/behavior_sensor_rotate_common.c b/app/src/behaviors/behavior_sensor_rotate_common.c
+index 6df9dfd..997b83a 100644
+--- a/app/src/behaviors/behavior_sensor_rotate_common.c
++++ b/app/src/behaviors/behavior_sensor_rotate_common.c
+@@ -39,8 +39,9 @@ int zmk_behavior_sensor_rotate_common_accept_data(
+         }
+ 
+         int trigger_degrees = 360 / sensor_config->triggers_per_rotation;
+-        triggers = remainder.val1 / trigger_degrees;
+-        remainder.val1 %= trigger_degrees;
++        int rounding = remainder.val1 >= 0 ? trigger_degrees / 4 : -(trigger_degrees / 4);
++        triggers = (remainder.val1 + rounding) / trigger_degrees;
++        remainder.val1 -= triggers * trigger_degrees;
+ 
+         data->remainder[sensor_index][event.layer] = remainder;
+     }
